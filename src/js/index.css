@@ -331,7 +331,7 @@ select {
 }
 
 .filterColorText {
-  font-size: 2px;
+  font-size: 10px;
   word-break: keep-all;
 }
 
