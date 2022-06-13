@@ -1,0 +1,6 @@
+{
+  "api": {
+    "itemInfo": "https://akai-meganee.github.io/primagi-data/item.json",
+    "categoryInfo": "https://akai-meganee.github.io/primagi-data/category.json"
+  }
+}
