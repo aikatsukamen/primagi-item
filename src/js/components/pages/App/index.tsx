@@ -31,7 +31,7 @@ const swingModalStyles: Modal.Styles = {
     background: 'linear-gradient(90deg, #fe8ae1 0%, #d79fea 23%, #aabeff 80%, #87cfed 100%)',
     padding: '10px',
     maxWidth: '500px',
-    height: 'calc(100vh - 100px)',
+    // height: 'calc(100vh - 100px)',
     maxHeight: '565px',
     zIndex: 3,
   },
@@ -137,6 +137,7 @@ const App: React.FC = () => {
   // スクリプトの中で読み書きするデータ
   // モーダル表示状態
   const [swingModalIsOpen, setSwingModalIsOpen] = React.useState(false);
+  const [coordinateModalIsOpen, setCoordinateModalIsOpen] = React.useState(false);
 
   // モーダルで表示しているカード
   const [openCard, setOpenCard] = React.useState<Item>(initialItem);
@@ -148,6 +149,64 @@ const App: React.FC = () => {
 
     // モーダルを開いてたら閉じる
     closeModal();
+  };
+
+  // 印刷リスト
+  const [coordiList, setCoordiList] = React.useState<{ tops: Item | null; topBottoms: Item | null; bottoms: Item | null; shoes: Item | null; accessory: Item | null }>({
+    tops: null,
+    topBottoms: null,
+    bottoms: null,
+    shoes: null,
+    accessory: null,
+  });
+  const addCoordiList = (card: Item) => () => {
+    switch (card.category) {
+      case 1: {
+        setCoordiList({ ...coordiList, tops: card, topBottoms: null });
+        break;
+      }
+      case 2: {
+        setCoordiList({ ...coordiList, tops: null, topBottoms: card, bottoms: null });
+        break;
+      }
+      case 3: {
+        setCoordiList({ ...coordiList, topBottoms: null, bottoms: card });
+        break;
+      }
+      case 4: {
+        setCoordiList({ ...coordiList, shoes: card });
+        break;
+      }
+      case 5: {
+        setCoordiList({ ...coordiList, accessory: card });
+        break;
+      }
+    }
+    closeModal();
+  };
+  const delCoordiList = (card: Item) => () => {
+    switch (card.category) {
+      case 1: {
+        setCoordiList({ ...coordiList, tops: null });
+        break;
+      }
+      case 2: {
+        setCoordiList({ ...coordiList, topBottoms: null });
+        break;
+      }
+      case 3: {
+        setCoordiList({ ...coordiList, bottoms: null });
+        break;
+      }
+      case 4: {
+        setCoordiList({ ...coordiList, shoes: null });
+        break;
+      }
+      case 5: {
+        setCoordiList({ ...coordiList, accessory: null });
+        break;
+      }
+    }
   };
 
   const [searchWord, setSearchWord] = React.useState<string>('');
@@ -270,8 +329,14 @@ const App: React.FC = () => {
     setOpenCard(card);
     setSwingModalIsOpen(true);
   };
+
+  const clickCoordiButton = async () => {
+    setCoordinateModalIsOpen(true);
+  };
+
   const closeModal = () => {
     setSwingModalIsOpen(false);
+    setCoordinateModalIsOpen(false);
   };
 
   /** カード一枚分のDom作る */
@@ -304,9 +369,9 @@ const App: React.FC = () => {
     );
   };
 
-  const createSwing = (thumbnail: string, key: string) => {
+  const createSwing = (card: Item, thumbnail: string, background: string, backgroundRotate: boolean, key: string) => {
     return (
-      <button className={'imageFrame'}>
+      <button className={'imageFrame'} onClick={addCoordiList(card)}>
         <span className={'imageFrameTop'}></span>
         <span className={'imageFrameBottom'} />
         <div key={key} className={'swingitem'}>
@@ -327,6 +392,125 @@ const App: React.FC = () => {
           </button>
         </div>
       </button>
+    );
+  };
+
+  const createCoordinate = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        {coordiList.accessory ? (
+          <div style={{ marginBottom: -15, marginLeft: 30 }}>
+            <img
+              src={coordiList.accessory.cardImg}
+              width={80}
+              onError={(e) => {
+                e.currentTarget.src = 'img/img_load_err.jpg';
+                e.currentTarget.removeAttribute('onerror');
+                e.currentTarget.removeAttribute('onload');
+              }}
+              onLoad={(e) => {
+                e.currentTarget.removeAttribute('onerror');
+                e.currentTarget.removeAttribute('onload');
+              }}
+            />
+          </div>
+        ) : (
+          ''
+        )}
+        {coordiList.topBottoms ? (
+          <div style={{ marginBottom: -60 }}>
+            <img
+              src={coordiList.topBottoms.cardImg}
+              width={150}
+              onError={(e) => {
+                e.currentTarget.src = 'img/img_load_err.jpg';
+                e.currentTarget.removeAttribute('onerror');
+                e.currentTarget.removeAttribute('onload');
+              }}
+              onLoad={(e) => {
+                e.currentTarget.removeAttribute('onerror');
+                e.currentTarget.removeAttribute('onload');
+              }}
+            />
+          </div>
+        ) : (
+          ''
+        )}
+        {coordiList.tops ? (
+          <div style={{ marginBottom: -80 }}>
+            <img
+              src={coordiList.tops.cardImg}
+              width={150}
+              onError={(e) => {
+                e.currentTarget.src = 'img/img_load_err.jpg';
+                e.currentTarget.removeAttribute('onerror');
+                e.currentTarget.removeAttribute('onload');
+              }}
+              onLoad={(e) => {
+                e.currentTarget.removeAttribute('onerror');
+                e.currentTarget.removeAttribute('onload');
+              }}
+            />
+          </div>
+        ) : (
+          ''
+        )}
+        {coordiList.bottoms ? (
+          <div style={{ marginBottom: -60 }}>
+            <img
+              src={coordiList.bottoms.cardImg}
+              width={150}
+              onError={(e) => {
+                e.currentTarget.src = 'img/img_load_err.jpg';
+                e.currentTarget.removeAttribute('onerror');
+                e.currentTarget.removeAttribute('onload');
+              }}
+              onLoad={(e) => {
+                e.currentTarget.removeAttribute('onerror');
+                e.currentTarget.removeAttribute('onload');
+              }}
+            />
+          </div>
+        ) : (
+          ''
+        )}
+        {coordiList.shoes ? (
+          <div style={{ marginTop: 30 }}>
+            <img
+              src={coordiList.shoes.cardImg}
+              width={150}
+              onError={(e) => {
+                e.currentTarget.src = 'img/img_load_err.jpg';
+                e.currentTarget.removeAttribute('onerror');
+                e.currentTarget.removeAttribute('onload');
+              }}
+              onLoad={(e) => {
+                e.currentTarget.removeAttribute('onerror');
+                e.currentTarget.removeAttribute('onload');
+              }}
+            />
+          </div>
+        ) : (
+          ''
+        )}
+      </div>
+    );
+  };
+
+  /** 下のコーデ対象一覧へ追加 */
+  const createCoordiItem = (card: Item | null) => {
+    if (!card) return '';
+    return (
+      <div className={'coordiItem'} key={`item_${card.sealId}`} onClick={delCoordiList(card)}>
+        <button>
+          <div>
+            <img src={card.cardImg} width={40} />
+          </div>
+          <div style={{ marginTop: '-1.5em', fontWeight: 'bold', fontSize: 'small' }}>
+            <span>{card.sealId}</span>
+          </div>
+        </button>
+      </div>
     );
   };
 
@@ -514,7 +698,21 @@ const App: React.FC = () => {
       {/* フッタ */}
       <div style={{ height: 200 }} />
       <div className={'footer'}>
-        <div className={'footer-inner'}>{/*  */}</div>
+        <div className={'footer-inner'}>
+          <div className={'coordiItemList'}>
+            {/* 印刷用リスト */}
+            {(coordiList.tops || coordiList.topBottoms || coordiList.bottoms || coordiList.shoes || coordiList.accessory) && (
+              <button className={'exportCoordiButton'} onClick={clickCoordiButton}>
+                コーデ表示
+              </button>
+            )}
+            {createCoordiItem(coordiList.tops)}
+            {createCoordiItem(coordiList.topBottoms)}
+            {createCoordiItem(coordiList.bottoms)}
+            {createCoordiItem(coordiList.shoes)}
+            {createCoordiItem(coordiList.accessory)}
+          </div>
+        </div>
       </div>
 
       {/* カード選択時のモーダル */}
@@ -529,10 +727,10 @@ const App: React.FC = () => {
             <div>
               {/* タイトル */}
               <div>
-                <div className={'title printListTitle'}>{`${openCard.coordinationName}`}</div>
+                <div className={'title coordiListTitle'}>{`${openCard.coordinationName}`}</div>
               </div>
               {/* カード画像 */}
-              <div className={'swingcontent'}>{createSwing(openCard.cardImg, 'swing_0')}</div>
+              <div className={'swingcontent'}>{createSwing(openCard, openCard.cardImg, './img/card.png', false, 'swing_0')}</div>
               {/* カード詳細 */}
               <div>
                 <div>
@@ -575,6 +773,33 @@ const App: React.FC = () => {
                     <img src={openCard.subCategoryImg} width={40} />
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* コーデプレビュー */}
+      <Modal isOpen={coordinateModalIsOpen} style={swingModalStyles} onRequestClose={closeModal} shouldCloseOnOverlayClick={true} ariaHideApp={false}>
+        <div className={'modalInner'}>
+          <div>
+            <div style={{ float: 'right' }}>
+              <button className={'closeButton'} onClick={closeModal}>
+                x
+              </button>
+            </div>
+            <div>
+              {/* カード画像 */}
+              <div>{createCoordinate()}</div>
+              {/* カード詳細 */}
+              <div>
+                {coordiList.accessory && <div style={{ textAlign: 'center', fontWeight: 'bold' }}>{`${coordiList.accessory.sealId} ${coordiList.accessory.coordinationName}`}</div>}
+                {coordiList.topBottoms && (
+                  <div style={{ textAlign: 'center', fontWeight: 'bold' }}>{`${coordiList.topBottoms.sealId} ${coordiList.topBottoms.coordinationName}`}</div>
+                )}
+                {coordiList.tops && <div style={{ textAlign: 'center', fontWeight: 'bold' }}>{`${coordiList.tops.sealId} ${coordiList.tops.coordinationName}`}</div>}
+                {coordiList.bottoms && <div style={{ textAlign: 'center', fontWeight: 'bold' }}>{`${coordiList.bottoms.sealId} ${coordiList.bottoms.coordinationName}`}</div>}
+                {coordiList.shoes && <div style={{ textAlign: 'center', fontWeight: 'bold' }}>{`${coordiList.shoes.sealId} ${coordiList.shoes.coordinationName}`}</div>}
               </div>
             </div>
           </div>

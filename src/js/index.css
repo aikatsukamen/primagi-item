@@ -114,12 +114,10 @@ button:disabled {
 
 .swingcontent {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  grid-auto-rows: 1fr;
-  grid-gap: 0.8em;
   border: 1px solid #ddd;
   padding: 0.8em;
   margin: 0 0 2em;
+  justify-items: center;
 }
 
 .swingitem {
@@ -182,6 +180,27 @@ select {
   color: gray;
 }
 
+.coordiItemList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.coordiItem {
+  width: 40px;
+  padding: 5px;
+  text-align: center;
+}
+
+.exportCoordiButton {
+  background: #ff6eb4;
+  border-radius: 5px;
+  color: aliceblue;
+  max-width: 300px;
+  padding: 5px;
+  height: 50px;
+}
+
 .closeButton {
   background: #ff6eb4;
   color: aliceblue;
@@ -190,7 +209,7 @@ select {
   height: 30px;
 }
 
-.printListTitle {
+.coordiListTitle {
   color: #bea94c;
   font-weight: 700;
   text-align: center;
@@ -228,6 +247,7 @@ select {
 
 .imageFrame {
   position: relative;
+  width: 160px;
 }
 
 .imageFrame::before {
