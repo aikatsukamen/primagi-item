@@ -116,7 +116,7 @@ button:disabled {
   display: grid;
   border: 1px solid #ddd;
   padding: 0.8em;
-  margin: 0 0 2em;
+  margin: 0 0 1em;
   justify-items: center;
 }
 

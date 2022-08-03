@@ -264,7 +264,7 @@ const App: React.FC = () => {
         data.cardlist.map((item) => {
           if (!versions.includes(item.chapter)) versions.push(item.chapter);
         });
-        versions.push('全アイテム');
+        versions.sort().push('全アイテム');
         setVersionList(versions);
         setDispCardList(data.cardlist.filter((item) => item.chapter === versions[0]));
 
@@ -735,6 +735,7 @@ const App: React.FC = () => {
               <div>
                 <div>
                   <div style={{ textAlign: 'center', fontSize: 'small' }}>{openCard.span}</div>
+                  <div style={{ textAlign: 'center', fontSize: 'small' }}>{openCard.kinds}</div>
                   <div style={{ textAlign: 'center', fontWeight: 'bold' }}>{openCard.sealId}</div>
                 </div>
                 <div className={'itemModal_props'}>
